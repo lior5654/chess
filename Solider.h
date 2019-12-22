@@ -4,9 +4,10 @@
 #include "Game.h"  // color
 class Solider
 {
-	Solider(const Position position, Color color);
+public:
+	Solider(Position position, Color color);
 
-	bool virtual canMove(const Position dest) = 0;
+	bool virtual canMove(Position& dest) = 0;
 	char virtual GetRepresentation() = 0;
 
 protected:
