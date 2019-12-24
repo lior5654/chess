@@ -12,7 +12,5 @@ public:
 	unsigned int raw;
 private:
 	static bool badIndex(unsigned int index);  // if is less than 0 or more than BOARD_SIZE
-	unsigned int col;
-	unsigned int row;
 };
 
