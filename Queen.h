@@ -1,11 +1,10 @@
 #pragma once
 #include "Solider.h"
-class Queen :
-	public Solider
+class Queen : public Solider
 {
 public:
 	Queen(Position position, Color color);
 	bool virtual canMove(Position& dest) override;
-	char virtual GetRepresentation() override;
+	char virtual getRepresentation() override;
 };
 
