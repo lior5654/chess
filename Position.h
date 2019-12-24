@@ -1,19 +1,19 @@
 #pragma once
 
 #define BOARD_SIZE 8
-#define POSITION_STRING_LENGTH 2
 
 class Position
 {
 public:
 	Position();
-	Position(unsigned int col, unsigned int raw);
-	Position(char col, char raw);
+	Position(unsigned int col, unsigned int row);
+	Position(char col, char row);
 	Position& operator=(const Position& other);
-
-	unsigned int col;
-	unsigned int raw;
+	unsigned int column() const;
+	unsigned int row() const;
 private:
-	static bool badIndex(unsigned int index);  // if is less than 0 or more than BOARD_SIZE
+	static bool badIndex(unsigned int index);  // NOTE: unsigned int is by definition bigger than 0, only testing the upper limit.
+	unsigned int _col;
+	unsigned int _row;
 };
 

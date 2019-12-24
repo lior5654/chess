@@ -1,46 +1,46 @@
+// INCLUDES
 #include "Position.h"
 
+// FUNCTIONS & METHODS
 Position::Position()
 {
-	this->col = 0;
-	this->raw = 0;
+	this->_col = 0;
+	this->_row = 0;
 }
 
-Position::Position(unsigned int col, unsigned int raw)
+Position::Position(unsigned int col, unsigned int row)
 {
-	if (badIndex(col) || badIndex(raw))
+	if (badIndex(col) || badIndex(row))
 	{
-		// TO DO: exception
+		throw "Position Out of Range";
 	}
-	this->col = col;
-	this->raw = raw;
+	this->_col = col;
+	this->_row = row;
 }
 
-Position::Position(char col, char raw)
+Position::Position(char col, char row)
 {
-	// a2 -> (0, 1)
-
-	// convert
-	unsigned int colInt = (unsigned int)'a' - col;
-	unsigned int rawInt = raw - '0' - 1;
-
-	*this = Position(colInt, rawInt);
+	*this = Position(((unsigned int)'a' - col), (row - (unsigned int)'0' - 1));
 }
 
 Position& Position::operator=(const Position& other)
 {
-	*this = Position(other.col, other.raw);
+	*this = Position(other.column(), other.row());
 	return *this;
 }
 
+// col getter
+unsigned int Position::column() const
+{
+	return this->_col;
+}
+
+// row getter
+unsigned int Position::row() const
+{
+	return this->_row;
+}
 bool Position::badIndex(unsigned int index)
 {
-	if (index >= BOARD_SIZE)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return (index >= BOARD_SIZE);
 }
