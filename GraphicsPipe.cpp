@@ -1,5 +1,5 @@
 #include "GraphicsPipe.h"
-
+GraphicsPipe::GraphicsPipe() {};
 GraphicsPipe::GraphicsPipe(char initMsgToGraphics[MSG_SIZE]) :
 	_p()
 {
@@ -47,4 +47,9 @@ void GraphicsPipe::acceptGraphicsReply()
 	{
 		throw "Invalid Graphics Reply Length";
 	}
+}
+
+std::string GraphicsPipe::getLatestReply()
+{
+	return this->_latestReply;
 }
