@@ -1,5 +1,6 @@
 #include "Position.h"
 
+
 Position::Position(unsigned int col, unsigned int raw)
 {
 	if (badIndex(col) || badIndex(raw))

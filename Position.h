@@ -5,6 +5,7 @@
 class Position
 {
 public:
+
 	Position(unsigned int col, unsigned int raw);
 	Position(char col, char raw);
 
