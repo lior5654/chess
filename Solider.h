@@ -8,7 +8,6 @@ class Solider
 {
 public:
 	Solider(Position position, Color color);
-	Solider();
 
 	bool virtual canMove(Position& dest, Board& theBoard) = 0;
 	char virtual getRepresentation() = 0;
