@@ -7,6 +7,7 @@ in order to read and write information from and to the Backend
 #include "Pipe.h"
 #include <iostream>
 #include <thread>
+#include "Position.h"
 
 using std::cout;
 using std::endl;
@@ -15,6 +16,13 @@ using std::string;
 
 void main()
 {
+	Position a = Position('a', '2');
+	//Position b = Position('i', '7');
+	//Position c = Position('a', '9');
+	//Position d = Position('i', '9');
+	Position e = Position('a', '5');
+	
+	std::cout << "\n";
 	srand(time_t(NULL));
 
 	
@@ -53,6 +61,8 @@ void main()
 	// get message from graphics
 	string msgFromGraphics = p.getMessageFromGraphics();
 
+	
+
 	while (msgFromGraphics != "quit")
 	{
 		// should handle the string the sent from graphics
@@ -73,6 +83,8 @@ void main()
 
 		// get message from graphics
 		msgFromGraphics = p.getMessageFromGraphics();
+
+		std::cout << msgFromGraphics << "\n";
 	}
 
 	p.close();
