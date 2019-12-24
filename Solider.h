@@ -1,19 +1,22 @@
 #pragma once
 
 #include "Position.h"
-#include "Game.h"  // color
+#include "enums.h"
 #include "Board.h"
 
 class Solider
 {
 public:
-	Solider(Position position, Color color);
+	Solider(const Position& position, const Color& color);
 
-	bool virtual canMove(Position& dest, Board& theBoard) = 0;
-	char virtual getRepresentation() = 0;
-
+	bool virtual canMove(const Position& dest, const Board& gameBoard) const = 0;
+	char virtual getRepresentation() const = 0;
+	Color color() const;
+	Position position() const;
+	void setColor(Color newColor);
+	void setPosition(Position newPosition);
 protected:
-	Color color;
-	Position position;
+	Color _color;
+	Position _position;
 };
 

@@ -2,20 +2,18 @@
 #include "Position.h"
 
 // FUNCTIONS & METHODS
-Position::Position()
+Position::Position() :
+	_col(0), _row(0)
 {
-	this->_col = 0;
-	this->_row = 0;
 }
 
-Position::Position(unsigned int col, unsigned int row)
+Position::Position(unsigned int col, unsigned int row) :
+	_col(col), _row(row)
 {
 	if (badIndex(col) || badIndex(row))
 	{
 		throw "Position Out of Range";
 	}
-	this->_col = col;
-	this->_row = row;
 }
 
 Position::Position(char col, char row)
@@ -40,6 +38,7 @@ unsigned int Position::row() const
 {
 	return this->_row;
 }
+
 bool Position::badIndex(unsigned int index)
 {
 	return (index >= BOARD_SIZE);
