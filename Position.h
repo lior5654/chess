@@ -1,6 +1,7 @@
 #pragma once
 
 #define BOARD_SIZE 8
+#define POSITION_STRING_LENGTH 2
 
 class Position
 {
