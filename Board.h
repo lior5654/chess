@@ -14,7 +14,7 @@ public:
 	Board(const string boardMap);
 	void move(const Position origin, const Position dest);
 	~Board();
-	void delete_solider(unsigned int index);
+	void deleteSolider(unsigned int index);
 private:
 	vector<Solider*> _map;
 };

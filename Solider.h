@@ -8,7 +8,7 @@ public:
 	Solider(Position position, Color color);
 
 	bool virtual canMove(Position& dest) = 0;
-	char virtual GetRepresentation() = 0;
+	char virtual getRepresentation() = 0;
 
 protected:
 	Color color;
