@@ -1,5 +1,7 @@
 #pragma once
 #include "Solider.h"
+#include <stdlib.h>     /* abs */
+
 class Knight : public Solider
 {
 public:
