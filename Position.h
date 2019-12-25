@@ -17,9 +17,9 @@ public:
 	void setRow(unsigned int newRow);
 	operator unsigned int() const;
 	bool operator==(const Position& other) const;
-	unsigned int operator-(const Position& other) const;
-	unsigned int operator||(const Position& other) const;
-	bool operator/(const Position& other) const;
+	unsigned int operator-(const Position& other) const;  // row
+	unsigned int operator||(const Position& other) const;  // col
+	int operator/(const Position& other) const;
 private:
 	static unsigned int dist(unsigned int a, unsigned int b);
 	static bool badIndex(unsigned int index);  // NOTE: unsigned int is by definition bigger than 0, only testing the upper limit.

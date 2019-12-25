@@ -77,9 +77,21 @@ unsigned int Position::operator||(const Position& other) const
 {
 	return Position::dist(other.column(), this->column());
 }
-bool Position::operator/(const Position& other) const
+int Position::operator/(const Position& other) const
 {
-	return (*this) - other == (*this) || other;
+	if ((*this) - other != (*this) || other)
+	{
+		return 0;
+	}
+	else if (!((*this).row() - other.row() > 0) ^ (*this).column() - other.column() > 0)
+	{
+		return 1;
+	}
+	else
+	{
+		return -1;
+	}
+
 }
 Position::operator unsigned int() const
 {
