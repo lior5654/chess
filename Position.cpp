@@ -69,7 +69,24 @@ bool Position::operator==(const Position& other) const
 {
 	return (this->row() == other.row() && this->column == other.column());
 }
+unsigned int Position::operator-(const Position& other) const
+{
+	return Position::dist(other.row(), this->row());
+}
+unsigned int Position::operator||(const Position& other) const
+{
+	return Position::dist(other.column(), this->column());
+}
+bool Position::operator/(const Position& other) const
+{
+	return (*this) - other == (*this) || other;
+}
 Position::operator unsigned int() const
 {
 	return this->row() * BOARD_SIZE + this->column();
+}
+
+unsigned int Position::dist(unsigned int a, unsigned int b)
+{
+	return (unsigned int)abs((int)a - (int)b);
 }
