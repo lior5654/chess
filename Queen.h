@@ -4,7 +4,6 @@ class Queen : public Solider
 {
 public:
 	Queen(Position position, Color color);
-	bool virtual canMove(Position& dest, Board& theBoard) override;
-	char virtual getRepresentation() override;
+	MoveCode virtual canMove(const Position& dest, const Board& gameBoard);
 };
 

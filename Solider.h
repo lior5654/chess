@@ -9,8 +9,7 @@ class Solider
 public:
 	Solider(const Position& position, const Color& color);
 
-	bool virtual canMove(const Position& dest, const Board& gameBoard) const = 0;
-	char virtual getRepresentation() const = 0;
+	MoveCode virtual canMove(const Position& dest, const Board& gameBoard) const = 0;
 	Color color() const;
 	Position position() const;
 	void setColor(Color newColor);

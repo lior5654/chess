@@ -5,9 +5,8 @@ class Pawn : public Solider
 public:
 	
 	Pawn(Position position, Color color);
-	bool virtual canMove(Position& dest, Board& theBoard) override;
-	char virtual getRepresentation() override;
+	MoveCode virtual canMove(const Position& dest, const Board& gameBoard);
 private:
-	bool moved;
+	bool _moved;
 };
 
