@@ -3,7 +3,7 @@
 class Bishop : public Solider
 {
 public:
-	Bishop(Position position, Color color);
-	MoveCode virtual canMove(const Position& dest, const Board& gameBoard);
+	Bishop(const Position& position, const Color& color);
+	virtual bool canMove(const Position& dest, const Board& gameBoard) const override;
 };
 
