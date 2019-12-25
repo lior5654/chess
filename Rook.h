@@ -1,7 +1,7 @@
 #pragma once
 #include "Solider.h"
 
-class Rook : public Solider
+class Rook : virtual Solider
 {
 public:
 	Rook(const Position& position, const Color& color);
