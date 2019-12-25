@@ -16,6 +16,5 @@ public:
 private:
 	Board _gameBoard;
 	GraphicsPipe _gp;
-	std::string _lastReplyFromGraphics;
 };
 
