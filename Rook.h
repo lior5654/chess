@@ -4,7 +4,7 @@
 class Rook : public Solider
 {
 public:
-	Rook(Position position, Color color);
-	MoveCode virtual canMove(const Position& dest, const Board& gameBoard);
+	Rook(const Position& position, const Color& color);
+	virtual bool canMove(const Position& dest, const Board& gameBoard) const override;
 };
 
