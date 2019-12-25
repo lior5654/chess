@@ -1,3 +1,3 @@
 #pragma once
-enum Color { white, black };
-enum MoveCode { }; // TO DO
+enum Color { WHITE, BLACK };
+enum MoveCode { VALID_MOVE, ORIGIN_NOT_OWNED, DEST_OWNED, IMPLIES_SELF_CHECK, OUT_OF_BOUNDS, DEFIES_SOLLIDER_MOVE_PATTERN, ORIGIN_AND_DEST_EQUALITY, CHECKMATE };
