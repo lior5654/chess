@@ -15,7 +15,8 @@ public:
 	unsigned int row() const;
 	void setColumn(unsigned int newCol);
 	void setRow(unsigned int newRow);
-	operator unsigned int() const;
+	operator unsigned int();
+	operator const unsigned int() const;
 	bool operator==(const Position& other) const;
 	unsigned int operator-(const Position& other) const;  // row
 	unsigned int operator||(const Position& other) const;  // col
