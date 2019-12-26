@@ -4,6 +4,7 @@
 #include "enums.h"
 #include "Board.h"
 
+class Board;
 class Solider
 {
 public:
@@ -14,6 +15,8 @@ public:
 	Position position() const;
 	void setColor(Color newColor);
 	void setPosition(Position newPosition);
+
+
 protected:
 	Color _color;
 	Position _position;
