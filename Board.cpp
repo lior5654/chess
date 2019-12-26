@@ -12,6 +12,13 @@ Solider* Board::operator[](const Position& index) const
 	// using position due to the fact that exceptions are already handled in it
 	return this->_map[index.row()][index.column()];
 }
+void Board::deleteSolider(const Position& origin)
+{
+	if ((*this)[origin] != nullptr)
+	{
+		delete (*this)[origin];
+	}
+}
 Solider*& Board::operator[](const unsigned int index)
 {
 	// using position due to the fact that exceptions are already handled in it
@@ -103,18 +110,15 @@ MoveCode Board::move(const Position& origin, const Position& dest)
 
 MoveCode Board::canPieceMove(const Position& origin, const Position& dest)
 {
-	if ((*this)[origin]->position() == dest)
-	{
-		return ORIGIN_AND_DEST_EQUALITY;
-	}
-	else if (this->currentPlayer() != (*this)[origin]->color)
+	if ((*this)[origin] != nullptr || this->currentPlayer() != (*this)[origin]->color)
 	{
 		return ORIGIN_NOT_OWNED;
 	}
-	else if (this->currentPlayer() != (*this)[dest]->color)
+	else if ((*this)[dest] != nullptr || this->currentPlayer() != (*this)[dest]->color)
 	{
 		return DEST_OWNED;
 	}
+	// NOTE: what happens if there are multiple errors?
 	else if (origin == dest)
 	{
 		return ORIGIN_AND_DEST_EQUALITY;
