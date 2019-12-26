@@ -3,6 +3,8 @@
 #include "Rook.h"
 #include "Bishop.h"
 
+class Bishop;
+class Rook;
 class Queen : public Rook, public Bishop
 {
 public:
