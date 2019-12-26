@@ -77,7 +77,7 @@ Board::Board(const std::string& boardMap)
 				(*this)[i] = new Bishop(Position(i), currentColor);
 				break;
 			case QUEEN_SYMBOL:
-				//(*this)[i] = new Queen(Position(i), currentColor);
+				(*this)[i] = new Queen(Position(i), currentColor);
 				break;
 			case PAWN_SYMBOL:
 				(*this)[i] = new Pawn(Position(i), currentColor);

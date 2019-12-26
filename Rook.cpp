@@ -20,6 +20,7 @@ bool Rook::canMove(const Position& dest, const Board& gameBoard)
 	unsigned int step = 0;  // if move up and down
 	bool moveColumn = false;
 
+
 	Position myPos = this->position();
 	// check if move vertical
 	if (!(myPos - dest) && !(myPos || dest))
@@ -58,15 +59,23 @@ bool Rook::canMove(const Position& dest, const Board& gameBoard)
 		else
 		{
 			currentPos.setRow(currentPos.row() + step);
+
 			if (gameBoard[currentPos] != nullptr)
 			{
 				return false;
 			}
 		}
-		// if have player there
-		return false;
 	}
 	
 	
 	return true;
+}
+
+Queen::Queen(const Position& position, const Color& color) : Solider(position, color)
+{
+
+}
+bool Queen::canMove(const Position& dest, const Board& gameBoard)
+{
+	return Rook::canMove(dest, gameBoard) || Bishop::canMove(dest, gameBoard);
 }

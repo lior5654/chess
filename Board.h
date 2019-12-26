@@ -3,6 +3,9 @@
 // INCLUDES
 #include <string>
 #include <map>
+
+#include "Queen.h"
+
 #include "Solider.h"
 #include "Position.h"
 #include "enums.h"
@@ -10,8 +13,8 @@
 #include "Bishop.h"
 #include "Knight.h"
 #include "Pawn.h"
-#include "Queen.h"
 #include "Rook.h"
+
 // DEFINE CONSTANTS
 #define EMPTY_BOARD_POSITION_SYMBOL '#'
 #define KING_SYMBOL 'k'
@@ -21,6 +24,9 @@
 #define BISHOP_SYMBOL 'b'
 #define PAWN_SYMBOL 'p'
 
+
+
+
 // maybe could replace map to a vector and use .at instead of two different indexing methods seperated by const
 class Board
 {
@@ -28,7 +34,7 @@ public:
 	Board();
 	Board(const std::string& boardMap);
 	MoveCode move(const Position& origin, const Position& dest);
-	~Board();
+	//~Board();
 	void deleteSolider(const Position& origin);
 	Solider*& operator[](const unsigned int index);
 	Solider* operator[](const unsigned int index) const;
@@ -41,4 +47,7 @@ private:
 	Color _currentPlayer;
 	std::map<Color, King*> playerKings;
 };
+
+
+
 
