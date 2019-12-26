@@ -11,12 +11,14 @@ bool King::canMove(const Position& dest, const Board& gameBoard)
 }
 bool King::isAlerted(const Board& gameBoard)
 {
-	for (auto solider : gameBoard)
-	{
-		if (solider != nullptr && solider->color() != this->color() && solider->canMove(this->position()))
-		{
-			return true;
-		}
-	}
+	// TO DO
+
+	//for (auto solider : gameBoard)
+	//{
+	//	if (solider != nullptr && solider->color() != this->color() && solider->canMove(this->position()))
+	//	{
+	//		return true;
+	//	}
+	//}
 	return false;
 }
