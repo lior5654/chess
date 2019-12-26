@@ -14,7 +14,7 @@ public:
 	void update();
 	//bool isGameOver();
 private:
-	Board _gameBoard;
-	GraphicsPipe _gp;
+	Board* _pGameBoard;
+	GraphicsPipe* _pGraphicsPipe;
 };
 

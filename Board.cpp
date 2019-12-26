@@ -1,8 +1,6 @@
 #include "Board.h"
 
-Board::Board() {};
-
-Solider* &Board::operator[](const Position& index)
+Solider*& Board::operator[](const Position& index)
 {
 	// using position due to the fact that exceptions are already handled in it
 	return this->_map[index.row()][index.column()];
@@ -106,6 +104,7 @@ MoveCode Board::move(const Position& origin, const Position& dest)
 		this->deleteSolider(dest);
 		(*this)[dest] = (*this)[origin];
 		(*this)[origin] = nullptr;
+		(*this)[dest]->setPosition(dest);
 		this->_currentPlayer = (this->currentPlayer() == WHITE) ? (BLACK) : (WHITE);
 	}
 	return resultantMoveCode;
@@ -133,9 +132,7 @@ MoveCode Board::canPieceMove(const Position& origin, const Position& dest)
 	}
 	else
 	{
-		pDestSoldier = (*this)[dest];
-		(*this)[dest] = (*this)[origin];
-		(*this)[origin] = nullptr;
+		pDestSoldier = this->moveWithoutDeletion(origin, dest);
 		if (this->playerKings[this->currentPlayer()]->isAlerted())
 		{
 			resultantMoveCode = IMPLIES_SELF_CHECK;
@@ -152,4 +149,13 @@ MoveCode Board::canPieceMove(const Position& origin, const Position& dest)
 		(*this)[dest] = pDestSoldier;
 	}
 	return resultantMoveCode;
+}
+
+Solider* Board::moveWithoutDeletion(const Position& origin, const Position& dest)
+{
+	Solider* pDestSoldier = nullptr;
+	pDestSoldier = (*this)[dest];
+	(*this)[dest] = (*this)[origin];
+	(*this)[origin] = nullptr;
+	return pDestSoldier;
 }

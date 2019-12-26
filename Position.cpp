@@ -12,6 +12,7 @@ Position::Position(unsigned int col, unsigned int row) :
 {
 	if (badIndex(col) || badIndex(row))
 	{
+		std::cerr << "E X C E P T I ON   R E E E E E" << std::endl;
 		throw "Position Out of Range";
 	}
 }
@@ -72,11 +73,11 @@ bool Position::operator==(const Position& other) const
 }
 unsigned int Position::operator-(const Position& other) const
 {
-	return Position::dist(other.row(), this->row());
+	return Position::dist(other.column(), this->column());
 }
 unsigned int Position::operator||(const Position& other) const
 {
-	return Position::dist(other.column(), this->column());
+	return Position::dist(other.row(), this->row());
 }
 int Position::operator/(const Position& other) const
 {

@@ -8,7 +8,7 @@ class Solider
 {
 public:
 	Solider(const Position& position, const Color& color, const Board* pGameBoard);
-
+	virtual ~Solider();
 	virtual bool canMove(const Position& dest) = 0;
 	Color color(void) const;
 	Position position(void) const;

@@ -14,7 +14,11 @@ bool King::isAlerted(void)
 	unsigned int i = 0;
 	for (i = 0; i < BOARD_SIZE * BOARD_SIZE; i++)
 	{
-		if ((*this->pBoard())[i] != nullptr && (*this->pBoard())[i]->color() != this->color() && (*this->pBoard())[i]->canMove(this->position()))
+		if ((*(this->pBoard()))[i] == nullptr)
+		{
+			continue;
+		}
+		if ((*(this->pBoard()))[i]->color() != this->color() && (*(this->pBoard()))[i]->canMove(this->position()))
 		{
 			return true;
 		}

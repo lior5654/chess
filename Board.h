@@ -23,16 +23,14 @@
 #define PAWN_SYMBOL 'p'
 
 // maybe could replace map to a vector and use .at instead of two different indexing methods seperated by const
-class King;
-class Rook;
-class Bishop;
 class Solider;
+class King;
 class Board
 {
 public:
-	Board();
 	Board(const std::string& boardMap);
 	MoveCode move(const Position& origin, const Position& dest);
+	Solider* moveWithoutDeletion(const Position& origin, const Position& dest);
 	//~Board();  // TO DO: delete all Soliders
 	void deleteSolider(const Position& origin);
 	Solider*& operator[](const unsigned int& index);

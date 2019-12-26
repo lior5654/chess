@@ -3,7 +3,7 @@
 #include "Solider.h"
 
 class Board;
-class Rook : virtual public Solider
+class Rook : public Solider
 {
 public:
 	Rook(const Position& position, const Color& color, const Board* pGameBoard);

@@ -1,7 +1,8 @@
 #pragma once
 
 #define BOARD_SIZE 8
-#include <stdlib.h>     /* abs */
+#include <cmath>
+#include <iostream>
 
 class Position
 {

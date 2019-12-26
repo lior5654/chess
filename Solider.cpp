@@ -2,6 +2,11 @@
 #include "Solider.h"
 
 // FUNCTIONS & METHODS
+
+Solider::~Solider()
+{
+
+}
 Solider::Solider(const Position& position, const Color& color, const Board* pGameBoard) :
 	_position(position), _color(color), _pBoard(pGameBoard)
 {
