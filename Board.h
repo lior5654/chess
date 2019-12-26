@@ -21,7 +21,7 @@
 #define BISHOP_SYMBOL 'b'
 #define PAWN_SYMBOL 'p'
 
-
+class Solider;
 // maybe could replace map to a vector and use .at instead of two different indexing methods seperated by const
 class Board
 {
