@@ -26,3 +26,5 @@ void Solider::setPosition(Position newPosition)
 {
 	this->_position = newPosition;
 }
+
+

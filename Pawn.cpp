@@ -5,7 +5,7 @@ Pawn::Pawn(Position position, Color color) : Solider(position, color)
 
 }
 
-bool Pawn::canMove(const Position& dest, const Board& gameBoard) const
+bool Pawn::canMove(const Position& dest, const Board& gameBoard)
 {
 	// check if move one
 	Position myPos = this->position();

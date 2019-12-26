@@ -5,7 +5,7 @@ King::King(const Position& position, const Color& color) :
 {
 
 }
-bool King::canMove(const Position& dest, const Board& gameBoard) const
+bool King::canMove(const Position& dest, const Board& gameBoard)
 {
 	return (abs((int)this->position().column() - (int)dest.column()) == 1 || abs((int)this->position().row() - (int)dest.row()) == 1);
 }

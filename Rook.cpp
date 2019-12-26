@@ -7,21 +7,22 @@ Rook::Rook(const Position& position, const Color& color) : Solider(position, col
 
 }
 
-bool Rook::canMove(const Position& dest, const Board& gameBoard) const
+bool Rook::canMove(const Position& dest, const Board& gameBoard)
 {
 	unsigned int start = 0;  // start y or x
 	unsigned int end = 0;  // end y or x
 	unsigned int step = 0;  // if move up and down
 	bool moveColumn = false;
 
+	Position myPos = this->position();
 	// check if move vertical
-	if (dest.column() != this->position().column() && dest.row() != this->position().row())
+	if (!(myPos - dest) && !(myPos || dest))
 	{
 		return false;
 	}
 
 	// if move by col
-	if (dest.column() != this->position().column())
+	if ((myPos || dest) == 0)
 	{
 		start = this->position().column();
 		end = dest.column();
@@ -59,6 +60,7 @@ bool Rook::canMove(const Position& dest, const Board& gameBoard) const
 		// if have player there
 		return false;
 	}
-
+	
+	
 	return true;
 }
