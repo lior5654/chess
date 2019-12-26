@@ -33,10 +33,15 @@ public:
 	void deleteSolider(const Position& origin);
 	Solider*& operator[](const unsigned int index);
 	Solider* operator[](const unsigned int index) const;
+	Solider* operator[](const unsigned int index) const;
 	Solider*& operator[](const Position& index);
 	Solider* operator[](const Position& index) const;
 	Color currentPlayer(void) const;
 	MoveCode canPieceMove(const Position& origin, const Position& dest);
+	/*Solider** begin() { return &((*this)[0]); }
+	Solider** end() { return &((*this)[BOARD_SIZE * BOARD_SIZE - 1]); }
+	const Solider** begin() const { return &((*this)[0]); }
+	const Solider** end() const { return &((*this)[BOARD_SIZE * BOARD_SIZE - 1]); }*/
 private:
 	Solider* _map[BOARD_SIZE][BOARD_SIZE];
 	Color _currentPlayer;
