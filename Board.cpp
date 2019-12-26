@@ -103,26 +103,40 @@ MoveCode Board::move(const Position& origin, const Position& dest)
 
 MoveCode Board::canPieceMove(const Position& origin, const Position& dest)
 {
-	if ((*this)[origin]->position() == dest)
+	// TODO: add check & checkmate check
+	Solider* originSolider = this->operator[](origin);  // always not null
+	Solider* destSolider = this->operator[](dest);  // can be null...
+	bool haveSoliderInDest = true;
+
+	if (destSolider == nullptr)
 	{
-		return ORIGIN_AND_DEST_EQUALITY;
+		haveSoliderInDest = false;
 	}
-	else if (this->currentPlayer() != (*this)[origin]->color)
+	
+	if (originSolider->canMove(dest, (*this)))
 	{
-		return ORIGIN_NOT_OWNED;
+		if (haveSoliderInDest)
+		{
+			if (originSolider->color() == destSolider->color())
+			{
+				return DEST_OWNED;
+			}
+			else
+			{
+				// if kill enemy Solider
+				return VALID_MOVE;
+			}
+		}
+		else
+		{
+			return VALID_MOVE;
+		}
 	}
-	else if (this->currentPlayer() != (*this)[dest]->color)
-	{
-		return DEST_OWNED;
-	}
-	else if (origin == dest)
-	{
-		return ORIGIN_AND_DEST_EQUALITY;
-	}
-	else if (!(*this)[origin]->canMove(dest, (*this)))
+	else
 	{
 		return DEFIES_SOLLIDER_MOVE_PATTERN;
 	}
-	// TODO: add check & checkmate check
-	return VALID_MOVE;
+
+	
+	
 }
