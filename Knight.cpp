@@ -1,23 +1,13 @@
 #include "Knight.h"
 
-Knight::Knight(Position position, Color color) : Solider(position, color)
+Knight::Knight(const Position& position, const Color& color, const Board* pGameBoard) :
+	Solider(position, color, pGameBoard)
 {
 
 }
 
-bool Knight::canMove(const Position& dest, const Board& gameBoard) const
+bool Knight::canMove(const Position& dest)
 {
-	Position myPosition = this->position();
-	if ((myPosition || dest) == 2 && (myPosition - dest) == 1)
-	{
-		return true;
-	}
-	else if ((myPosition - dest) == 2 && (myPosition || dest) == 1)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return ((this->position() || dest) == 2 && (this->position() - dest) == 1) ||
+		   ((this->position() - dest) == 2 && (this->position() || dest) == 1);
 }

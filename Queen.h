@@ -1,9 +1,11 @@
 #pragma once
 #include "Solider.h"
-class Queen : virtual Rook, Bishop
+
+class Solider;
+class Queen : public Rook, public Bishop
 {
 public:
-	Queen(const Position& position, const Color& color);
-	virtual bool canMove(const Position& dest, const Board& gameBoard) const override;
+	Queen(const Position& position, const Color& color, const Board* pGameBoard);
+	virtual bool canMove(const Position& dest) override;
 };
 

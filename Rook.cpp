@@ -1,27 +1,29 @@
 #include "Rook.h"
 
-// finish Rook class
 
-Rook::Rook(const Position& position, const Color& color) : Solider(position, color)
+Rook::Rook(const Position& position, const Color& color, const Board* pGameBoard) :
+	Solider(position, color, pGameBoard)
 {
 
 }
 
-bool Rook::canMove(const Position& dest, const Board& gameBoard) const
+bool Rook::canMove(const Position& dest)
 {
 	unsigned int start = 0;  // start y or x
 	unsigned int end = 0;  // end y or x
 	unsigned int step = 0;  // if move up and down
 	bool moveColumn = false;
 
+
+	Position myPos = this->position();
 	// check if move vertical
-	if (dest.column() != this->position().column() && dest.row() != this->position().row())
+	if (!(myPos - dest) && !(myPos || dest))
 	{
 		return false;
 	}
 
 	// if move by col
-	if (dest.column() != this->position().column())
+	if ((myPos || dest) == 0)
 	{
 		start = this->position().column();
 		end = dest.column();
@@ -43,7 +45,7 @@ bool Rook::canMove(const Position& dest, const Board& gameBoard) const
 		if (moveColumn)
 		{
 			currentPos.setColumn(currentPos.column() + step);
-			if (gameBoard[currentPos] != nullptr)
+			if ((*this->pBoard())[currentPos] != nullptr)
 			{
 				return false;
 			}
@@ -51,14 +53,14 @@ bool Rook::canMove(const Position& dest, const Board& gameBoard) const
 		else
 		{
 			currentPos.setRow(currentPos.row() + step);
-			if (gameBoard[currentPos] != nullptr)
+
+			if ((*this->pBoard())[currentPos] != nullptr)
 			{
 				return false;
 			}
 		}
-		// if have player there
-		return false;
 	}
-
+	
+	
 	return true;
 }

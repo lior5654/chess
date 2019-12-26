@@ -67,7 +67,7 @@ bool Position::badIndex(unsigned int index)
 
 bool Position::operator==(const Position& other) const
 {
-	return (this->row() == other.row() && this->column == other.column());
+	return ((this->row() == other.row()) && (this->column() == other.column()));
 }
 unsigned int Position::operator-(const Position& other) const
 {

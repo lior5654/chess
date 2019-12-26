@@ -1,20 +1,20 @@
 #include "King.h"
 
-King::King(const Position& position, const Color& color) :
-	Solider(position, color)
+King::King(const Position& position, const Color& color, const Board* pGameBoard) :
+	Solider(position, color, pGameBoard)
 {
 
 }
-bool King::canMove(const Position& dest, const Board& gameBoard) const
+bool King::canMove(const Position& dest)
 {
 	return (this->position() - dest) == 1 || (this->position() || dest) == 1;
 }
-bool King::isAlerted(const Board& gameBoard)
+bool King::isAlerted(void)
 {
-	unsigned i = 0;
+	unsigned int i = 0;
 	for (i = 0; i < BOARD_SIZE * BOARD_SIZE; i++)
 	{
-		if (gameBoard[i] != nullptr && gameBoard[i]->color() != this->color() && gameBoard[i]->canMove(this->position(), gameBoard))
+		if ((*this->pBoard())[i] != nullptr && (*this->pBoard())[i]->color() != this->color() && (*this->pBoard())[i]->canMove(this->position()))
 		{
 			return true;
 		}

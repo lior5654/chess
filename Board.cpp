@@ -17,15 +17,16 @@ void Board::deleteSolider(const Position& origin)
 	if ((*this)[origin] != nullptr)
 	{
 		delete (*this)[origin];
+		(*this)[origin] = nullptr;
 	}
 }
-Solider*& Board::operator[](const unsigned int index)
+Solider*& Board::operator[](const unsigned int& index)
 {
 	// using position due to the fact that exceptions are already handled in it
 	Position indexPos = Position(index % BOARD_SIZE, index / BOARD_SIZE);
 	return (*this)[indexPos];
 }
-Solider* Board::operator[](const unsigned int index) const
+Solider* Board::operator[](const unsigned int& index) const
 {
 	// using position due to the fact that exceptions are already handled in it
 	Position indexPos = Position(index % BOARD_SIZE, index / BOARD_SIZE);
@@ -99,7 +100,7 @@ MoveCode Board::move(const Position& origin, const Position& dest)
 {
 	MoveCode resultantMoveCode = VALID_MOVE;
 	resultantMoveCode = this->canPieceMove(origin, dest);
-	if (resultantMoveCode == VALID_MOVE)
+	if (resultantMoveCode == VALID_MOVE || resultantMoveCode == CAUSES_CHECK)
 	{
 		this->deleteSolider(dest);
 		(*this)[dest] = (*this)[origin];
@@ -110,23 +111,43 @@ MoveCode Board::move(const Position& origin, const Position& dest)
 
 MoveCode Board::canPieceMove(const Position& origin, const Position& dest)
 {
-	if ((*this)[origin] != nullptr || this->currentPlayer() != (*this)[origin]->color)
+	Solider* pDestSoldier = nullptr;
+	MoveCode resultantMoveCode = VALID_MOVE;
+	if ((*this)[origin] == nullptr || (int)this->currentPlayer() != (*this)[origin]->color())
 	{
-		return ORIGIN_NOT_OWNED;
+		resultantMoveCode = ORIGIN_NOT_OWNED;
 	}
-	else if ((*this)[dest] != nullptr || this->currentPlayer() != (*this)[dest]->color)
+	else if ((*this)[dest] != nullptr && this->currentPlayer() == (*this)[dest]->color())
 	{
-		return DEST_OWNED;
+		resultantMoveCode = DEST_OWNED;
 	}
-	// NOTE: what happens if there are multiple errors?
 	else if (origin == dest)
 	{
-		return ORIGIN_AND_DEST_EQUALITY;
+		resultantMoveCode = ORIGIN_AND_DEST_EQUALITY;
 	}
-	else if (!(*this)[origin]->canMove(dest, (*this)))
+	if (!(*this)[origin]->canMove(dest, (*this)))
 	{
-		return DEFIES_SOLLIDER_MOVE_PATTERN;
+		resultantMoveCode = DEFIES_SOLLIDER_MOVE_PATTERN;
 	}
-	// TODO: add check & checkmate check
-	return VALID_MOVE;
+	else
+	{
+		pDestSoldier = (*this)[dest];
+		(*this)[dest] = (*this)[origin];
+		(*this)[origin] = nullptr;
+		if (this->playerKings[this->currentPlayer()]->isAlerted(*this))
+		{
+			resultantMoveCode = IMPLIES_SELF_CHECK;
+		}
+		else if (this->playerKings[((this->currentPlayer() == WHITE) ? (BLACK) : (WHITE))]->isAlerted(*this))
+		{
+			resultantMoveCode = CAUSES_CHECK;
+		}
+		else
+		{
+			resultantMoveCode = VALID_MOVE;
+		}
+		(*this)[origin] = (*this)[dest];
+		(*this)[dest] = pDestSoldier;
+	}
+	return resultantMoveCode;
 }

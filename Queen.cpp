@@ -5,7 +5,7 @@ Queen::Queen(const Position& position, const Color& color) :
 {
 
 }
-bool Queen::canMove(const Position& dest, const Board& gameBoard) const
+bool Queen::canMove(const Position& dest, const Board& gameBoard)
 {
 	return Rook::canMove(dest, gameBoard) || Bishop::canMove(dest, gameBoard);
 }
