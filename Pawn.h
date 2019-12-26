@@ -1,7 +1,7 @@
 #pragma once
+#include "Board.h"
 #include "Solider.h"
 
-class Solider;
 class Pawn : public Solider
 {
 public:

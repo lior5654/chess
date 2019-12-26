@@ -41,9 +41,10 @@ Board::Board(const std::string& boardMap)
 {
 	unsigned int i = 0;  // loop variable
 	Color currentColor = WHITE;
+	this->_currentPlayer = BLACK;
 	this->playerKings[WHITE] = nullptr;
 	this->playerKings[BLACK] = nullptr;
-	if (boardMap.length() != BOARD_SIZE * BOARD_SIZE)
+	if (boardMap.length() != BOARD_SIZE * BOARD_SIZE + 1)
 	{
 		throw "invalid initial board map length";
 	}
@@ -59,7 +60,7 @@ Board::Board(const std::string& boardMap)
 		}
 		else
 		{
-			currentColor = (std::isalpha(boardMap[i])) ? (WHITE) : (BLACK);
+			currentColor = (std::isupper(boardMap[i])) ? (BLACK) : (WHITE);
 			switch (std::tolower(boardMap[i]))
 			{
 			case KING_SYMBOL:
@@ -67,32 +68,32 @@ Board::Board(const std::string& boardMap)
 				{
 					throw "There can only be 1 king of each color";
 				}
-				(*this)[i] = new King(Position(i), currentColor);
+				(*this)[i] = new King(Position(i), currentColor, this);
 				this->playerKings[currentColor] = (King*)(*this)[i];
 				break;
 			case ROOK_SYMBOL:
-				(*this)[i] = new Rook(Position(i), currentColor);
+				(*this)[i] = new Rook(Position(i), currentColor, this);
 				break;
 			case KNIGHT_SYMBOL:
-				(*this)[i] = new Knight(Position(i), currentColor);
+				(*this)[i] = new Knight(Position(i), currentColor, this);
 				break;
 			case BISHOP_SYMBOL:
-				(*this)[i] = new Bishop(Position(i), currentColor);
+				(*this)[i] = new Bishop(Position(i), currentColor, this);
 				break;
 			case QUEEN_SYMBOL:
-				(*this)[i] = new Queen(Position(i), currentColor);
+				(*this)[i] = new Queen(Position(i), currentColor, this);
 				break;
 			case PAWN_SYMBOL:
-				(*this)[i] = new Pawn(Position(i), currentColor);
+				(*this)[i] = new Pawn(Position(i), currentColor, this);
 				break;
 			default:
 				throw "Unkown Solider Char Given to Board Ctor";
 			}
-			if (this->playerKings[WHITE] == nullptr || this->playerKings[BLACK] == nullptr)
-			{
-				throw "Missing Kings In Board Map Given to Board Ctor";
-			}
 		}
+	}
+	if (this->playerKings[WHITE] == nullptr || this->playerKings[BLACK] == nullptr)
+	{
+		throw "Missing Kings In Board Map Given to Board Ctor";
 	}
 }
 
@@ -105,6 +106,7 @@ MoveCode Board::move(const Position& origin, const Position& dest)
 		this->deleteSolider(dest);
 		(*this)[dest] = (*this)[origin];
 		(*this)[origin] = nullptr;
+		this->_currentPlayer = (this->currentPlayer() == WHITE) ? (BLACK) : (WHITE);
 	}
 	return resultantMoveCode;
 }
@@ -125,7 +127,7 @@ MoveCode Board::canPieceMove(const Position& origin, const Position& dest)
 	{
 		resultantMoveCode = ORIGIN_AND_DEST_EQUALITY;
 	}
-	if (!(*this)[origin]->canMove(dest, (*this)))
+	else if (!(*this)[origin]->canMove(dest))
 	{
 		resultantMoveCode = DEFIES_SOLLIDER_MOVE_PATTERN;
 	}
@@ -134,11 +136,11 @@ MoveCode Board::canPieceMove(const Position& origin, const Position& dest)
 		pDestSoldier = (*this)[dest];
 		(*this)[dest] = (*this)[origin];
 		(*this)[origin] = nullptr;
-		if (this->playerKings[this->currentPlayer()]->isAlerted(*this))
+		if (this->playerKings[this->currentPlayer()]->isAlerted())
 		{
 			resultantMoveCode = IMPLIES_SELF_CHECK;
 		}
-		else if (this->playerKings[((this->currentPlayer() == WHITE) ? (BLACK) : (WHITE))]->isAlerted(*this))
+		else if (this->playerKings[((this->currentPlayer() == WHITE) ? (BLACK) : (WHITE))]->isAlerted())
 		{
 			resultantMoveCode = CAUSES_CHECK;
 		}

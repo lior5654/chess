@@ -2,7 +2,7 @@
 
 #include "Position.h"
 #include "enums.h"
-#include "Board.h"
+
 class Board;
 class Solider
 {
@@ -14,7 +14,7 @@ public:
 	Position position(void) const;
 	const Board* pBoard(void) const;
 	void setColor(Color newColor);
-	void setPosition(Position newPosition);
+	virtual void setPosition(Position newPosition);
 
 
 protected:

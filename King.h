@@ -1,6 +1,6 @@
 #pragma once
+#include "Board.h"
 #include "Solider.h"
-class Solider;
 #include <cmath>
 
 class King : public Solider

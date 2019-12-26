@@ -1,8 +1,9 @@
 #pragma once
+#include "Board.h"
 #include "Solider.h"
 
-class Soldier;
-class Bishop : virtual public Solider
+class Board;
+class Bishop : public Solider
 {
 public:
 	Bishop();

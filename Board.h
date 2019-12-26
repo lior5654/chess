@@ -2,7 +2,7 @@
 
 // INCLUDES
 #include <string>
-#include <map>
+#include <unordered_map>
 #include "Solider.h"
 #include "Position.h"
 #include "enums.h"
@@ -22,14 +22,11 @@
 #define BISHOP_SYMBOL 'b'
 #define PAWN_SYMBOL 'p'
 
-class Solider;
-class King;
-class Bishop;
-class Knight;
-class Pawn;
-class Rook;
-class Queen;
 // maybe could replace map to a vector and use .at instead of two different indexing methods seperated by const
+class King;
+class Rook;
+class Bishop;
+class Solider;
 class Board
 {
 public:
@@ -51,7 +48,7 @@ public:
 private:
 	Solider* _map[BOARD_SIZE][BOARD_SIZE];
 	Color _currentPlayer;
-	std::map<Color, King*> playerKings;
+	std::unordered_map<Color, King*> playerKings;
 };
 
 

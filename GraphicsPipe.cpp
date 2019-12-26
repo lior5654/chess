@@ -34,7 +34,7 @@ GraphicsPipe::~GraphicsPipe()
 
 void GraphicsPipe::sendMoveCode(const MoveCode& moveCodeToSend)
 {
-	char msgToGraphics[MSG_SIZE] = "";
+	char msgToGraphics[MSG_SIZE] = { 0 };
 	msgToGraphics[0] = (char)((unsigned int)moveCodeToSend + '0');
 	msgToGraphics[1] = 0;
 	this->_p.sendMessageToGraphics(msgToGraphics);

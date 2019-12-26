@@ -1,8 +1,8 @@
 #pragma once
-#include <stdlib.h>     /* abs */
+#include "Board.h"
 #include "Solider.h"
+#include <cmath>
 
-class Solider;
 class Knight : public Solider
 {
 public:

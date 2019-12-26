@@ -4,5 +4,9 @@ using std::cout;
 #include "Game.h"
 int main()
 {
-	std::cout << "hi!\n";
+	Game game = Game();
+	while (true)
+	{
+		game.update();
+	}
 }

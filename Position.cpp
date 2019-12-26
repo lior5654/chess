@@ -18,7 +18,7 @@ Position::Position(unsigned int col, unsigned int row) :
 
 Position::Position(char col, char row)
 {
-	*this = Position(((unsigned int)'a' - col), (row - (unsigned int)'0' - 1));
+	*this = Position((unsigned int)(col - 'a'), (row - '1'));
 }
 
 Position::Position(unsigned int index)
@@ -27,7 +27,8 @@ Position::Position(unsigned int index)
 }
 Position& Position::operator=(const Position& other)
 {
-	*this = Position(other.column(), other.row());
+	this->setColumn(other.column());
+	this->setRow(other.row());
 	return *this;
 }
 

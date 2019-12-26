@@ -1,8 +1,8 @@
 #pragma once
-#include "Solider.h"
+#include "Board.h"
 
-class Solider;
-class Queen : public Rook, public Bishop
+
+class Queen : public Solider
 {
 public:
 	Queen(const Position& position, const Color& color, const Board* pGameBoard);
