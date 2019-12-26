@@ -12,6 +12,11 @@ Solider* Board::operator[](const Position& index) const
 	// using position due to the fact that exceptions are already handled in it
 	return this->_map[index.row()][index.column()];
 }
+void Board::deleteSolider(const Position& origin)
+{
+	delete (*this)[origin];
+	(*this)[origin] = nullptr;
+}
 Solider*& Board::operator[](const unsigned int index)
 {
 	// using position due to the fact that exceptions are already handled in it
@@ -72,7 +77,7 @@ Board::Board(const std::string& boardMap)
 				(*this)[i] = new Bishop(Position(i), currentColor);
 				break;
 			case QUEEN_SYMBOL:
-				(*this)[i] = new Queen(Position(i), currentColor);
+				//(*this)[i] = new Queen(Position(i), currentColor);
 				break;
 			case PAWN_SYMBOL:
 				(*this)[i] = new Pawn(Position(i), currentColor);
