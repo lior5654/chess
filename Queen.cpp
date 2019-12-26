@@ -1,7 +1,6 @@
 #include "Queen.h"
 
-Queen::Queen(const Position& position, const Color& color) :
-	Rook::(position, color), Bishop::(position, color)
+Queen::Queen(const Position& position, const Color& color) : Solider(position, color)
 {
 
 }

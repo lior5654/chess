@@ -2,6 +2,12 @@
 
 // finish Rook class
 
+
+
+Rook::Rook()
+{
+}
+
 Rook::Rook(const Position& position, const Color& color) : Solider(position, color)
 {
 

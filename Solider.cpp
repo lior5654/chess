@@ -1,6 +1,10 @@
 // INCLUDES
 #include "Solider.h"
 
+Solider::Solider()
+{
+}
+
 // FUNCTIONS & METHODS
 Solider::Solider(const Position& position, const Color& color) :
 	_position(position), _color(color)

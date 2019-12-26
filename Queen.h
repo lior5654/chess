@@ -1,8 +1,9 @@
 #pragma once
 #include "Solider.h"
+#include "Rook.h"
+#include "Bishop.h"
 
-// TO DO: add the other Solider and fix diamond problem
-class Queen : public Solider
+class Queen : public Rook, public Bishop
 {
 public:
 	Queen(const Position& position, const Color& color);
