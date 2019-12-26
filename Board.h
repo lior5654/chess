@@ -4,8 +4,6 @@
 #include <string>
 #include <map>
 
-#include "Queen.h"
-
 #include "Solider.h"
 #include "Position.h"
 #include "enums.h"
@@ -14,6 +12,7 @@
 #include "Knight.h"
 #include "Pawn.h"
 #include "Rook.h"
+#include "Queen.h"
 
 // DEFINE CONSTANTS
 #define EMPTY_BOARD_POSITION_SYMBOL '#'
@@ -34,7 +33,7 @@ public:
 	Board();
 	Board(const std::string& boardMap);
 	MoveCode move(const Position& origin, const Position& dest);
-	//~Board();
+	//~Board();  // TO DO: delete all Soliders
 	void deleteSolider(const Position& origin);
 	Solider*& operator[](const unsigned int index);
 	Solider* operator[](const unsigned int index) const;

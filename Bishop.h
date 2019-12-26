@@ -1,5 +1,7 @@
 #pragma once
 #include "Solider.h"
+#include "Board.h"
+
 class Bishop : virtual public Solider
 {
 public:
