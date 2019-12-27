@@ -67,7 +67,7 @@ Board::Board(const std::string& boardMap)
 					throw "There can only be 1 king of each color";
 				}
 				(*this)[i] = new King(Position(i), currentColor, this);
-				this->playerKings[currentColor] = (King*)(*this)[i];
+				this->playerKings[currentColor] = (King*)((*this)[i]);
 				break;
 			case ROOK_SYMBOL:
 				(*this)[i] = new Rook(Position(i), currentColor, this);
@@ -110,6 +110,27 @@ MoveCode Board::move(const Position& origin, const Position& dest)
 	return resultantMoveCode;
 }
 
+bool Board::isPositionAlerted(const Position& positionToBeTested)
+{
+	unsigned int i = 0;
+	if ((*this)[positionToBeTested] == nullptr)
+	{
+		return false;
+	}
+	for (i = 0; i < BOARD_SIZE * BOARD_SIZE; i++)
+	{
+
+		if ((*this)[i] == nullptr || i == positionToBeTested)
+		{
+			continue;
+		}
+		if ((*this)[i]->color() != (*this)[positionToBeTested]->color() && (*this)[i]->canMove((*this)[positionToBeTested]->position()))
+		{
+			return true;
+		}
+	}
+	return false;
+}
 MoveCode Board::canPieceMove(const Position& origin, const Position& dest)
 {
 	Solider* pDestSoldier = nullptr;
@@ -133,11 +154,11 @@ MoveCode Board::canPieceMove(const Position& origin, const Position& dest)
 	else
 	{
 		pDestSoldier = this->moveWithoutDeletion(origin, dest);
-		if (this->playerKings[this->currentPlayer()]->isAlerted())
+		if (this->isPositionAlerted(this->playerKings[this->currentPlayer()]->position()))
 		{
 			resultantMoveCode = IMPLIES_SELF_CHECK;
 		}
-		else if (this->playerKings[((this->currentPlayer() == WHITE) ? (BLACK) : (WHITE))]->isAlerted())
+		else if (this->isPositionAlerted(this->playerKings[((this->currentPlayer() == WHITE) ? (BLACK) : (WHITE))]->position()))
 		{
 			resultantMoveCode = CAUSES_CHECK;
 		}
@@ -147,6 +168,7 @@ MoveCode Board::canPieceMove(const Position& origin, const Position& dest)
 		}
 		(*this)[origin] = (*this)[dest];
 		(*this)[dest] = pDestSoldier;
+		(*this)[origin]->setPosition(origin);
 	}
 	return resultantMoveCode;
 }
@@ -157,6 +179,7 @@ Solider* Board::moveWithoutDeletion(const Position& origin, const Position& dest
 	pDestSoldier = (*this)[dest];
 	(*this)[dest] = (*this)[origin];
 	(*this)[origin] = nullptr;
+	(*this)[dest]->setPosition(dest);
 	return pDestSoldier;
 }
 

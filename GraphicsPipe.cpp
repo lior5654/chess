@@ -3,6 +3,7 @@ GraphicsPipe::GraphicsPipe() {};
 GraphicsPipe::GraphicsPipe(char initMsgToGraphics[MSG_SIZE]) :
 	_p()
 {
+	Sleep(3000);
 	bool isConnect = this->_p.connect();
 
 	string ans;
