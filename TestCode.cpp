@@ -5,8 +5,8 @@ using std::cout;
 int main()
 {
 	Game game = Game();
-	while (true)
+	while (game.update())
 	{
-		game.update();
+		
 	}
 }
