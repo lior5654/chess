@@ -12,10 +12,10 @@ public:
 	Position(char col, char row);
 	Position(unsigned int index);
 	Position& operator=(const Position& other);
-	unsigned int column() const;
-	unsigned int row() const;
-	void setColumn(unsigned int newCol);
-	void setRow(unsigned int newRow);
+	unsigned int x() const;
+	unsigned int y() const;
+	void setX(unsigned int newX);
+	void setY(unsigned int newY);
 	operator unsigned int();
 	operator const unsigned int() const;
 	bool operator==(const Position& other) const;
@@ -25,6 +25,6 @@ public:
 private:
 	static unsigned int dist(unsigned int a, unsigned int b);
 	static bool badIndex(unsigned int index);  // NOTE: unsigned int is by definition bigger than 0, only testing the upper limit.
-	unsigned int _col;
-	unsigned int _row;
+	unsigned int _x;
+	unsigned int _y;
 };

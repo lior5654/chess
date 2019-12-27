@@ -10,7 +10,7 @@ bool Bishop::canMove(const Position& dest)
 	int posOffset = 0;
 	if (this->position() / dest)
 	{
-		posOffset = (((this->position()).column() > dest.column()) ? -1 : 1) + (((this->position()).row() > dest.row()) ? -8 : 8);
+		posOffset = (((this->position()).x() > dest.x()) ? -1 : 1) + (((this->position()).y() > dest.y()) ? -8 : 8);
 		for (unsigned int i = (unsigned int)(this->position()) + posOffset; (posOffset > 0) && i <= (unsigned int)dest - posOffset || (posOffset < 0) && i >= (unsigned int)dest - posOffset; i += posOffset)
 		{
 			if ((*this->pBoard())[i] != nullptr)

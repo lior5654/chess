@@ -66,11 +66,11 @@ Position Pawn::posForward(Position& pos, Color color)
 {
 	if (color == WHITE)
 	{
-		pos.setRow(pos.row() + 1);
+		pos.setY(pos.y() + 1);
 	}
 	else
 	{
-		pos.setRow(pos.row() - 1);
+		pos.setY(pos.y() - 1);
 	}
 	return pos;
 }

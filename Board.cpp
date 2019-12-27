@@ -3,12 +3,12 @@
 Solider*& Board::operator[](const Position& index)
 {
 	// using position due to the fact that exceptions are already handled in it
-	return this->_map[index.row()][index.column()];
+	return this->_map[index.y()][index.x()];
 }
 Solider* Board::operator[](const Position& index) const
 {
 	// using position due to the fact that exceptions are already handled in it
-	return this->_map[index.row()][index.column()];
+	return this->_map[index.y()][index.x()];
 }
 void Board::deleteSolider(const Position& origin)
 {

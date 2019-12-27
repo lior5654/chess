@@ -3,23 +3,23 @@
 
 // FUNCTIONS & METHODS
 Position::Position() :
-	_col(0), _row(0)
+	_x(0), _y(0)
 {
 }
 
-Position::Position(unsigned int col, unsigned int row) :
-	_col(col), _row(row)
+Position::Position(unsigned int x, unsigned int y) :
+	_x(x), _y(y)
 {
-	if (badIndex(col) || badIndex(row))
+	if (badIndex(x) || badIndex(y))
 	{
 		std::cerr << "E X C E P T I ON   R E E E E E" << std::endl;
 		throw "Position Out of Range";
 	}
 }
 
-Position::Position(char col, char row)
+Position::Position(char x, char y)
 {
-	*this = Position((unsigned int)(col - 'a'), (row - '1'));
+	*this = Position((unsigned int)(x - 'a'), (y - '1'));
 }
 
 Position::Position(unsigned int index)
@@ -28,38 +28,38 @@ Position::Position(unsigned int index)
 }
 Position& Position::operator=(const Position& other)
 {
-	this->setColumn(other.column());
-	this->setRow(other.row());
+	this->setX(other.x());
+	this->setY(other.y());
 	return *this;
 }
 
 // col getter
-unsigned int Position::column() const
+unsigned int Position::x() const
 {
-	return this->_col;
+	return this->_x;
 }
 
 // row getter
-unsigned int Position::row() const
+unsigned int Position::y() const
 {
-	return this->_row;
+	return this->_y;
 }
 
-void Position::setColumn(unsigned int newCol)
+void Position::setX(unsigned int newCol)
 {
 	if (badIndex(newCol))
 	{
 		throw "Position Out of Range";
 	}
-	this->_col = newCol;
+	this->_x = newCol;
 }
-void Position::setRow(unsigned int newRow)
+void Position::setY(unsigned int newRow)
 {
 	if (badIndex(newRow))
 	{
 		throw "Position Out of Range";
 	}
-	this->_row = newRow;
+	this->_y = newRow;
 }
 
 bool Position::badIndex(unsigned int index)
@@ -69,15 +69,15 @@ bool Position::badIndex(unsigned int index)
 
 bool Position::operator==(const Position& other) const
 {
-	return ((this->row() == other.row()) && (this->column() == other.column()));
+	return ((this->y() == other.y()) && (this->x() == other.x()));
 }
 unsigned int Position::operator-(const Position& other) const
 {
-	return Position::dist(other.column(), this->column());
+	return Position::dist(other.x(), this->x());
 }
 unsigned int Position::operator||(const Position& other) const
 {
-	return Position::dist(other.row(), this->row());
+	return Position::dist(other.y(), this->y());
 }
 int Position::operator/(const Position& other) const
 {
@@ -86,11 +86,11 @@ int Position::operator/(const Position& other) const
 }
 Position::operator unsigned int()
 {
-	return this->row() * BOARD_SIZE + this->column();
+	return this->y() * BOARD_SIZE + this->x();
 }
 Position::operator const unsigned int() const
 {
-	return this->row() * BOARD_SIZE + this->column();
+	return this->y() * BOARD_SIZE + this->x();
 }
 unsigned int Position::dist(unsigned int a, unsigned int b)
 {

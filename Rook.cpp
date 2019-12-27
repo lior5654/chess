@@ -13,11 +13,11 @@ bool Rook::canMove(const Position& dest)
 	int posOffset = 0;
 	if (!(this->position() - dest))
 	{
-		posOffset = ((this->position()).row() > dest.row()) ? -8 : 8;
+		posOffset = ((this->position()).y() > dest.y()) ? -8 : 8;
 	}
 	else if (!(this->position() || dest))
 	{
-		posOffset = ((this->position()).column() > dest.column()) ? -1 : 1;
+		posOffset = ((this->position()).x() > dest.x()) ? -1 : 1;
 	}
 	else
 	{
