@@ -159,3 +159,19 @@ Solider* Board::moveWithoutDeletion(const Position& origin, const Position& dest
 	(*this)[origin] = nullptr;
 	return pDestSoldier;
 }
+
+Board::~Board()
+{
+	for (int i = 0; i < BOARD_SIZE * BOARD_SIZE; i++)
+	{
+		Solider* solider = (*this)[i];
+		if (solider == nullptr)
+		{
+			continue;
+		}
+		else
+		{
+			delete solider;
+		}
+	}
+}

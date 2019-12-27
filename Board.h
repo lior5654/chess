@@ -31,7 +31,7 @@ public:
 	Board(const std::string& boardMap);
 	MoveCode move(const Position& origin, const Position& dest);
 	Solider* moveWithoutDeletion(const Position& origin, const Position& dest);
-	//~Board();  // TO DO: delete all Soliders
+	~Board();
 	void deleteSolider(const Position& origin);
 	Solider*& operator[](const unsigned int& index);
 	Solider* operator[](const unsigned int& index) const;
