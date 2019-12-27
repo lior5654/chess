@@ -10,7 +10,8 @@ public:
 	virtual bool canMove(const Position& dest) override;
 private:
 	bool _moved;
-	bool haveSameColor(Solider* otherSolider);
-	Position addOneCol(Position& pos);
+	bool canKillSolider(const Solider* otherSolider);
+	static Position posForward(Position& pos, Color color);
+	static bool isGoingBack(const Position& origin, const Position& dest, const Color color);
 };
 

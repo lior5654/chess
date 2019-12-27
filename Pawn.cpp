@@ -14,15 +14,21 @@ bool Pawn::canMove(const Position& dest)
 	Solider* movePlaceSolider = nullptr;
 	unsigned int maxMove = _moved ? 1 : 2;
 
-	//this->_moved = true;
+
+	// check if move back
+	if (isGoingBack(myPos, dest, this->color()))
+	{
+		return false;
+	}
+
 
 	if (((myPos || dest) <= maxMove) && ((myPos - dest) == 0))
 	{
 		// if have Solider In the way
-		if (this->_moved)
+		if (!(this->_moved))
 		{
 			
-			addOneCol(tempPos);
+			posForward(tempPos, this->color());
 			// if move by two
 			movePlaceSolider = (*this->pBoard())[tempPos];
 			if ((myPos || dest) == 2)
@@ -32,53 +38,73 @@ bool Pawn::canMove(const Position& dest)
 					return false;
 				}
 
-				addOneCol(tempPos);
+				posForward(tempPos, this->color());
 				movePlaceSolider = (*this->pBoard())[tempPos];
 			}
 
-			if (!haveSameColor(movePlaceSolider))  // if have target and if it not the same color
+			if (movePlaceSolider == nullptr || canKillSolider(movePlaceSolider))  // if have target and if it not the same color
 			{
+
+				std::cout << "kill |\n";
 				this->_moved = true;
 				return true;
 			}
 		}
 		else
 		{
-			return true;
-		}
-	}
-	
-	if ((myPos || dest) == 1 && (myPos - dest) == 1)
-	{
-		// check if move back
-		if (myPos.column() > dest.column())
-		{
-			return false;
-		}
-
-		// check if not have same color Solider there
-		if (!haveSameColor((*this->pBoard())[dest]))
-		{
 			this->_moved = true;
 			return true;
 		}
 	}
-	// check if have kill enemy
+	
+	// if kill 
+	if ((myPos || dest) == 1 && (myPos - dest) == 1)
+	{
+		// check if not have same color Solider there
+		if (canKillSolider((*this->pBoard())[dest]))
+		{
+
+			std::cout << "kill /\n";
+			this->_moved = true;
+			return true;
+		}
+	}
 
 	return false;
 }
 
-bool Pawn::haveSameColor(Solider* otherSolider)
+bool Pawn::canKillSolider(const Solider* otherSolider)
 {
 	if (otherSolider == nullptr)
 	{
 		return false;
 	}
-	return this->color() == otherSolider->color();
+	return this->color() != otherSolider->color();
 }
 
-Position Pawn::addOneCol(Position& pos)
+Position Pawn::posForward(Position& pos, Color color)
 {
-	pos.setColumn(pos.column() + 1);
+	if (color == WHITE)
+	{
+		pos.setRow(pos.row() + 1);
+	}
+	else
+	{
+		pos.setRow(pos.row() - 1);
+	}
 	return pos;
+}
+
+bool Pawn::isGoingBack(const Position& origin, const Position& dest, const Color color)
+{
+	bool returnBool = false;
+	if (color == WHITE)
+	{
+		returnBool = origin > dest;
+	}
+	else
+	{
+		returnBool = origin < dest;
+	}
+	return returnBool;
 }
