@@ -13,7 +13,7 @@ bool Pawn::canMove(const Position& dest)
 	Position tempPos = this->position();
 	Solider* movePlaceSolider = nullptr;
 	unsigned int maxMove = _moved ? 1 : 2;
-
+	unsigned int moveDiss = (myPos || dest);
 
 	// check if move back
 	if (isGoingBack(myPos, dest, this->color()))
@@ -21,39 +21,21 @@ bool Pawn::canMove(const Position& dest)
 		return false;
 	}
 
-
-	if (((myPos || dest) <= maxMove) && ((myPos - dest) == 0))
+	
+	if ((moveDiss <= maxMove) && ((myPos - dest) == 0))
 	{
 		// if have Solider In the way
-		if (!(this->_moved))
+		for (int i = 0; i < moveDiss; i++)
 		{
-			
 			posForward(tempPos, this->color());
-			// if move by two
 			movePlaceSolider = (*this->pBoard())[tempPos];
-			if ((myPos || dest) == 2)
+			if (movePlaceSolider != nullptr)
 			{
-				if ((*this->pBoard())[tempPos] != nullptr)  // check if have Solider in the way
-				{
-					return false;
-				}
-
-				posForward(tempPos, this->color());
-				movePlaceSolider = (*this->pBoard())[tempPos];
-			}
-
-			if (movePlaceSolider == nullptr || canKillSolider(movePlaceSolider))  // if have target and if it not the same color
-			{
-
-				this->_moved = true;
-				return true;
+				return false;
 			}
 		}
-		else
-		{
-			this->_moved = true;
-			return true;
-		}
+		this->_moved = true;
+		return true;
 	}
 	
 	// if kill 
