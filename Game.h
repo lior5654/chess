@@ -12,10 +12,11 @@ class Game
 public:
 	Game();
 	~Game();
-	void update();
+	bool update();
 	//bool isGameOver();
 private:
 	Board* _pGameBoard;
 	GraphicsPipe* _pGraphicsPipe;
+	bool _gameEnd;
 };
 
