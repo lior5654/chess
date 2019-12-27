@@ -45,7 +45,6 @@ bool Pawn::canMove(const Position& dest)
 			if (movePlaceSolider == nullptr || canKillSolider(movePlaceSolider))  // if have target and if it not the same color
 			{
 
-				std::cout << "kill |\n";
 				this->_moved = true;
 				return true;
 			}
@@ -64,7 +63,6 @@ bool Pawn::canMove(const Position& dest)
 		if (canKillSolider((*this->pBoard())[dest]))
 		{
 
-			std::cout << "kill /\n";
 			this->_moved = true;
 			return true;
 		}
