@@ -6,6 +6,7 @@
 #include "enums.h"
 #define INITIAL_BOARD "rnbkqbnrpppppppp################################PPPPPPPPRNBKQBNR1"
 #define VALID_REPLY_LENGTH 4
+#pragma comment(lib, "winmm.lib")
 
 class Game
 {

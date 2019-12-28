@@ -5,6 +5,8 @@ Game::Game()
 	this->_pGameBoard = new Board(INITIAL_BOARD);
 	char initMessageToSend[MSG_SIZE] = INITIAL_BOARD;
 	this->_pGraphicsPipe = new GraphicsPipe(initMessageToSend);
+	PlaySound("gameSong.wav", NULL, SND_LOOP | SND_ASYNC);
+
 }
 Game::~Game()
 {
