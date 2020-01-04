@@ -42,6 +42,7 @@ public:
 	Solider* moveWithoutDeletion(const Position& origin, const Position& dest);
 	~Board();
 	bool isPositionAlerted(const Position& positionToBeTested);
+	MoveCode getCheckStatus(void);
 	void deleteSolider(const Position& origin);
 	Solider*& operator[](const unsigned int& index);
 	Solider* operator[](const unsigned int& index) const;

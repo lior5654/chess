@@ -154,13 +154,14 @@ MoveCode Board::move(const Position& origin, const Position& dest)
 	MoveCode resultantMoveCode = MoveCode::VALID_MOVE;
 	Solider* pDestSolider = nullptr;
 	resultantMoveCode = this->canPieceMove(origin, dest);
-	if (resultantMoveCode == MoveCode::VALID_MOVE || resultantMoveCode == MoveCode::CAUSES_CHECK || resultantMoveCode == MoveCode::CHECKMATE)  // legal move
+	if (resultantMoveCode == MoveCode::VALID_MOVE)
 	{
 		pDestSolider = this->moveWithoutDeletion(origin, dest);
 		if (pDestSolider != nullptr)
 		{
 			delete pDestSolider;
 		}
+		resultantMoveCode = this->getCheckStatus();
 		this->_currentPlayer = (this->currentPlayer() == Color::WHITE) ? (Color::BLACK) : (Color::WHITE);
 	}
 	return resultantMoveCode;
@@ -193,14 +194,53 @@ bool Board::isPositionAlerted(const Position& positionToBeTested)
 	return false;
 }
 
+MoveCode Board::getCheckStatus(void)
+{
+	unsigned int i = 0;
+	unsigned int j = 0;
+	bool canProtect = false;
+	Solider* pDestSoldier = nullptr;
+	King* kingToTest = nullptr;
+	kingToTest = this->playerKings[((this->currentPlayer() == Color::WHITE) ? (Color::BLACK) : (Color::WHITE))];
+	if (!this->isPositionAlerted(kingToTest->position()))
+	{
+		return MoveCode::VALID_MOVE;
+	}
+	this->_currentPlayer = (this->currentPlayer() == Color::WHITE) ? (Color::BLACK) : (Color::WHITE);
+	for (i = 0; i < BOARD_SIZE * BOARD_SIZE && !canProtect; i++)
+	{
+		if ((*this)[i] != nullptr && (*this)[i]->color() == kingToTest->color())
+		{
+			for (j = 0; j < BOARD_SIZE * BOARD_SIZE && !canProtect; j++)
+			{
+				if (this->canPieceMove(i, j) == MoveCode::VALID_MOVE)
+				{
+					// temporairly moving
+					pDestSoldier = this->moveWithoutDeletion(i, j);
+					if (!this->isPositionAlerted(kingToTest->position()))
+					{
+						canProtect = true;
+					}
+					// undoing the temporary move
+					this->moveWithoutDeletion(j, i);
+					(*this)[j] = pDestSoldier;
+				}
+			}
+		}
+	}
+	this->_currentPlayer = (this->currentPlayer() == Color::WHITE) ? (Color::BLACK) : (Color::WHITE);
+	return (canProtect) ? (MoveCode::CAUSES_CHECK) : (MoveCode::CHECKMATE);
+}
 /*
-[?] Description: A method of the Board class that returns the move code that fits a given move based on the current Board's state.
+[?] Description: A method of the Board class that returns the move code that fits a given move based on the current Board's state (IMPORTANT, if the move code should be VALID or CAUSES_CHECK or CHECKMATE, valid is still returned. CHECK CAUSE AND CHECKMATE are checked outside of this function).
 [<-] const Position& origin: the origin of the move.
 [<-] const Position& dest: the destination of the move.
 [->] MoveCode resultantMoveCode: the resultant move code.
 */
 MoveCode Board::canPieceMove(const Position& origin, const Position& dest)
 {
+	unsigned int i = 0;
+	unsigned int j = 0;
 	Solider* pDestSoldier = nullptr;
 	MoveCode resultantMoveCode = MoveCode::VALID_MOVE;
 	if ((*this)[origin] == nullptr || this->currentPlayer() != (*this)[origin]->color())
@@ -226,10 +266,6 @@ MoveCode Board::canPieceMove(const Position& origin, const Position& dest)
 		if (this->isPositionAlerted(this->playerKings[this->currentPlayer()]->position()))
 		{
 			resultantMoveCode = MoveCode::IMPLIES_SELF_CHECK;
-		}
-		else if (this->isPositionAlerted(this->playerKings[((this->currentPlayer() == Color::WHITE) ? (Color::BLACK) : (Color::WHITE))]->position()))
-		{
-			resultantMoveCode = MoveCode::CAUSES_CHECK;
 		}
 		else
 		{

@@ -290,16 +290,7 @@ namespace chessGraphics
 
                     string res = convertEngineToText(m);
 
-
-                     // win or lose sound
-                     if (res.ToLower().StartsWith("game over"))
-                     {
-                         isGameOver = true;
-                         gameSong.Stop();
-                         SoundPlayer sound = new SoundPlayer(Properties.Resources.win);
-                         sound.Play();
-                     }
-                     else if (res.ToLower().StartsWith("valid"))
+                     if (res.ToLower().StartsWith("valid") || res.ToLower().StartsWith("game over"))
                      {
                          // move sound
                          
@@ -327,7 +318,6 @@ namespace chessGraphics
 
                          matBoard[srcSquare.Row, srcSquare.Col].FlatAppearance.BorderColor = Color.Blue;
                          matBoard[dstSquare.Row, dstSquare.Col].FlatAppearance.BorderColor = Color.Blue;
-
                      }
                      else
                      {
@@ -341,6 +331,17 @@ namespace chessGraphics
                     lblResult.Visible = true;
                     label2.Visible = true;
                     this.Refresh();
+                    // win or lose sound
+                    if (res.ToLower().StartsWith("game over"))
+                    {
+                        isGameOver = true;
+                        gameSong.Stop();
+                        SoundPlayer sound = new SoundPlayer(Properties.Resources.win);
+                        sound.Play();
+                        MessageBox.Show((isCurPlWhite ? "White" : "Black") + " is the winner!");
+                        this.Refresh();
+
+                    }
                  });
                 
            
