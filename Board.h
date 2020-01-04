@@ -1,3 +1,10 @@
+/**************************************************************************
+@ Project: Magshimim C++ Course Semester 1 Lesson 7-8 Chess Project
+@ File: Board.h
+@ Version: 1.0
+@ Made By: Lior Yehezkely // lior5654 // Th3Wh1t3Kn19ht & Jacob Galan // JacobGalm
+***************************************************************************/
+
 #pragma once
 
 // INCLUDES
@@ -13,6 +20,8 @@
 #include "Rook.h"
 #include "Queen.h"
 
+using chessEnums::Color;
+using chessEnums::MoveCode;
 // DEFINE CONSTANTS
 #define EMPTY_BOARD_POSITION_SYMBOL '#'
 #define KING_SYMBOL 'k'

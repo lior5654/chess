@@ -1,15 +1,64 @@
+/**************************************************************************
+@ Project: Magshimim C++ Course Semester 1 Lesson 7-8 Chess Project
+@ File: Board.cpp
+@ Version: 1.0
+@ Made By: Lior Yehezkely // lior5654 // Th3Wh1t3Kn19ht & Jacob Galam // JacobGalam
+***************************************************************************/
+
+// ICNLUDES
 #include "Board.h"
 
+/*
+[?] Description: A Position based indexing operator for the Board class.
+[<-] const Position& index: A constant reference to the map index to be accessed position based.
+[->] Solider*&: A reference to the solider pointer in the given index.
+*/
 Solider*& Board::operator[](const Position& index)
 {
 	// using position due to the fact that exceptions are already handled in it
 	return this->_map[index.y()][index.x()];
 }
+
+/*
+[?] Description: A Position based indexing operator for the Board class. (const version)
+[<-] const Position& index: A constant reference to the map index to be accessed position based.
+[->] Solider*: The solider pointer in the given index.
+*/
 Solider* Board::operator[](const Position& index) const
 {
 	// using position due to the fact that exceptions are already handled in it
 	return this->_map[index.y()][index.x()];
 }
+
+/*
+[?] Description: An unsigned int based indexing operator for the Board class.
+[<-] const Position& index: A constant reference to the map index to be accessed unsigned int based.
+[->] Solider*&: A reference to the solider pointer in the given index.
+*/
+Solider*& Board::operator[](const unsigned int& index)
+{
+	// using position due to the fact that exceptions are already handled in it
+	Position indexPos = Position(index % BOARD_SIZE, index / BOARD_SIZE);
+	return (*this)[indexPos];
+}
+
+/*
+[?] Description: An unsigned int based indexing operator for the Board class. (const version)
+[<-] const Position& index: A constant reference to the map index to be accessed unsigned int based.
+[->] Solider*: The solider pointer in the given index.
+*/
+Solider* Board::operator[](const unsigned int& index) const
+{
+	// using position due to the fact that exceptions are already handled in it
+	Position indexPos = Position(index % BOARD_SIZE, index / BOARD_SIZE);
+	return (*this)[indexPos];
+}
+
+/*
+[?] Description: A method of the baord class that deletes a solider at a given location.
+[<-] const Position& origin: the origin of the solider to be deleted.
+[->] X (void)
+*/
 void Board::deleteSolider(const Position& origin)
 {
 	if ((*this)[origin] != nullptr)
@@ -18,33 +67,32 @@ void Board::deleteSolider(const Position& origin)
 		(*this)[origin] = nullptr;
 	}
 }
-Solider*& Board::operator[](const unsigned int& index)
-{
-	// using position due to the fact that exceptions are already handled in it
-	Position indexPos = Position(index % BOARD_SIZE, index / BOARD_SIZE);
-	return (*this)[indexPos];
-}
-Solider* Board::operator[](const unsigned int& index) const
-{
-	// using position due to the fact that exceptions are already handled in it
-	Position indexPos = Position(index % BOARD_SIZE, index / BOARD_SIZE);
-	return (*this)[indexPos];
-}
 
+/*
+[?] Description: A getter of the current player filed of the board class.
+[<-] X (none)
+[->] Color: the Color of the current player.
+*/
 Color Board::currentPlayer(void) const
 {
 	return this->_currentPlayer;
 }
+
+/*
+[?] Description: A constructor for the Board class.
+[<-] const std::string& boardMap: the board map to be used.
+[->] X
+*/
 Board::Board(const std::string& boardMap)
 {
 	unsigned int i = 0;  // loop variable
-	Color currentColor = WHITE;
-	this->_currentPlayer = BLACK;
-	this->playerKings[WHITE] = nullptr;
-	this->playerKings[BLACK] = nullptr;
+	Color currentColor = Color::WHITE;
+	this->_currentPlayer = Color::BLACK;
+	this->playerKings[Color::WHITE] = nullptr;
+	this->playerKings[Color::BLACK] = nullptr;
 	if (boardMap.length() != BOARD_SIZE * BOARD_SIZE + 1)
 	{
-		throw "invalid initial board map length";
+		throw "invalid initial board map length";  // this should never happen, just making sure
 	}
 	for (unsigned int i = 0; i < BOARD_SIZE * BOARD_SIZE; i++)
 	{
@@ -54,17 +102,17 @@ Board::Board(const std::string& boardMap)
 		}
 		else if (!std::isalpha(boardMap[i]))
 		{
-			throw "Invalid Board Char Given to Board Ctor";
+			throw "Invalid Board Char Given to Board Ctor";  // this should never happen, just making sure
 		}
 		else
 		{
-			currentColor = (std::isupper(boardMap[i])) ? (BLACK) : (WHITE);
+			currentColor = (std::isupper(boardMap[i])) ? (Color::BLACK) : (Color::WHITE);
 			switch (std::tolower(boardMap[i]))
 			{
 			case KING_SYMBOL:
 				if (this->playerKings[currentColor] != nullptr)
 				{
-					throw "There can only be 1 king of each color";
+					throw "There can only be 1 king of each color";  // this should never happen, just making sure
 				}
 				(*this)[i] = new King(Position(i), currentColor, this);
 				this->playerKings[currentColor] = (King*)((*this)[i]);
@@ -85,35 +133,48 @@ Board::Board(const std::string& boardMap)
 				(*this)[i] = new Pawn(Position(i), currentColor, this);
 				break;
 			default:
-				throw "Unkown Solider Char Given to Board Ctor";
+				throw "Unkown Solider Char Given to Board Ctor";  // this should never happen, just making sure
 			}
 		}
 	}
-	if (this->playerKings[WHITE] == nullptr || this->playerKings[BLACK] == nullptr)
+	if (this->playerKings[Color::WHITE] == nullptr || this->playerKings[Color::BLACK] == nullptr)
 	{
-		throw "Missing Kings In Board Map Given to Board Ctor";
+		throw "Missing Kings In Board Map Given to Board Ctor";  // this should never happen, just making sure
 	}
 }
 
+/*
+[?] Description: A method of the Board class that plays a move from a given origin to a given destination. returns a move code that represents the move according to the pipe protocol.
+[<-] const Position& origin: the origin of the move.
+[<-] const Position& dest: the destination of the move.
+[->] MoveCode resultantMoveCode: the resultant move code.
+*/
 MoveCode Board::move(const Position& origin, const Position& dest)
 {
-	MoveCode resultantMoveCode = VALID_MOVE;
+	MoveCode resultantMoveCode = MoveCode::VALID_MOVE;
+	Solider* pDestSolider = nullptr;
 	resultantMoveCode = this->canPieceMove(origin, dest);
-	if (resultantMoveCode == VALID_MOVE || resultantMoveCode == CAUSES_CHECK)
+	if (resultantMoveCode == MoveCode::VALID_MOVE || resultantMoveCode == MoveCode::CAUSES_CHECK || resultantMoveCode == MoveCode::CHECKMATE)  // legal move
 	{
-		this->deleteSolider(dest);
-		(*this)[dest] = (*this)[origin];
-		(*this)[origin] = nullptr;
-		(*this)[dest]->setPosition(dest);
-		this->_currentPlayer = (this->currentPlayer() == WHITE) ? (BLACK) : (WHITE);
+		pDestSolider = this->moveWithoutDeletion(origin, dest);
+		if (pDestSolider != nullptr)
+		{
+			delete pDestSolider;
+		}
+		this->_currentPlayer = (this->currentPlayer() == Color::WHITE) ? (Color::BLACK) : (Color::WHITE);
 	}
 	return resultantMoveCode;
 }
 
+/*
+[?] Description: A method of the Board class that checks whether or not there exists a solider in a given position that can be eaten by the opposing group if it were to be their turn. (essentially mainly used for a check test).
+[<-] const Position& positionToBeTested: the position to be tested.
+[->] bool: a boolean represnetation of whether or not there exist an alereted solider in the given position.
+*/
 bool Board::isPositionAlerted(const Position& positionToBeTested)
 {
 	unsigned int i = 0;
-	if ((*this)[positionToBeTested] == nullptr)
+	if ((*this)[positionToBeTested] == nullptr)  // a position that lacks a solider is considered to be a non alerted solider.
 	{
 		return false;
 	}
@@ -131,48 +192,62 @@ bool Board::isPositionAlerted(const Position& positionToBeTested)
 	}
 	return false;
 }
+
+/*
+[?] Description: A method of the Board class that returns the move code that fits a given move based on the current Board's state.
+[<-] const Position& origin: the origin of the move.
+[<-] const Position& dest: the destination of the move.
+[->] MoveCode resultantMoveCode: the resultant move code.
+*/
 MoveCode Board::canPieceMove(const Position& origin, const Position& dest)
 {
 	Solider* pDestSoldier = nullptr;
-	MoveCode resultantMoveCode = VALID_MOVE;
-	if ((*this)[origin] == nullptr || (int)this->currentPlayer() != (*this)[origin]->color())
+	MoveCode resultantMoveCode = MoveCode::VALID_MOVE;
+	if ((*this)[origin] == nullptr || this->currentPlayer() != (*this)[origin]->color())
 	{
-		resultantMoveCode = ORIGIN_NOT_OWNED;
+		resultantMoveCode = MoveCode::ORIGIN_NOT_OWNED;
 	}
 	else if ((*this)[dest] != nullptr && this->currentPlayer() == (*this)[dest]->color())
 	{
-		resultantMoveCode = DEST_OWNED;
+		resultantMoveCode = MoveCode::DEST_OWNED;
 	}
 	else if (origin == dest)
 	{
-		resultantMoveCode = ORIGIN_AND_DEST_EQUALITY;
+		resultantMoveCode = MoveCode::ORIGIN_AND_DEST_EQUALITY;
 	}
 	else if (!(*this)[origin]->canMove(dest))
 	{
-		resultantMoveCode = DEFIES_SOLLIDER_MOVE_PATTERN;
+		resultantMoveCode = MoveCode::DEFIES_SOLLIDER_MOVE_PATTERN;
 	}
 	else
 	{
+		// temporairly moving
 		pDestSoldier = this->moveWithoutDeletion(origin, dest);
 		if (this->isPositionAlerted(this->playerKings[this->currentPlayer()]->position()))
 		{
-			resultantMoveCode = IMPLIES_SELF_CHECK;
+			resultantMoveCode = MoveCode::IMPLIES_SELF_CHECK;
 		}
-		else if (this->isPositionAlerted(this->playerKings[((this->currentPlayer() == WHITE) ? (BLACK) : (WHITE))]->position()))
+		else if (this->isPositionAlerted(this->playerKings[((this->currentPlayer() == Color::WHITE) ? (Color::BLACK) : (Color::WHITE))]->position()))
 		{
-			resultantMoveCode = CAUSES_CHECK;
+			resultantMoveCode = MoveCode::CAUSES_CHECK;
 		}
 		else
 		{
-			resultantMoveCode = VALID_MOVE;
+			resultantMoveCode = MoveCode::VALID_MOVE;
 		}
-		(*this)[origin] = (*this)[dest];
+		// undoing the temporary move
+		this->moveWithoutDeletion(dest, origin);
 		(*this)[dest] = pDestSoldier;
-		(*this)[origin]->setPosition(origin);
 	}
 	return resultantMoveCode;
 }
 
+/*
+[?] Description: A method of the Board class that performs a move without deleting the dest solider.
+[<-] const Position& origin: the origin of the move.
+[<-] const Position& dest: the destination of the move.
+[->] Solider* pDestSoldier: the dest's old solider pointer.
+*/
 Solider* Board::moveWithoutDeletion(const Position& origin, const Position& dest)
 {
 	Solider* pDestSoldier = nullptr;
@@ -183,18 +258,18 @@ Solider* Board::moveWithoutDeletion(const Position& origin, const Position& dest
 	return pDestSoldier;
 }
 
+/*
+[?] Description: A destructor for the board class
+[<-] X (none)
+[->] X
+*/
 Board::~Board()
 {
 	for (int i = 0; i < BOARD_SIZE * BOARD_SIZE; i++)
 	{
-		Solider* solider = (*this)[i];
-		if (solider == nullptr)
+		if ((*this)[i] != nullptr)  // technically if it's not nullptr it will be checked again in deleteSolider which is location based but we wanted to avoid code duplication. O(kn) + O(C) = O(n) anyways, so we allowed that to happen inorder to keep modularity in some other places.
 		{
-			continue;
-		}
-		else
-		{
-			delete solider;
+			this->deleteSolider((*this)[i]->position());
 		}
 	}
 }
