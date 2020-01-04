@@ -194,6 +194,11 @@ bool Board::isPositionAlerted(const Position& positionToBeTested)
 	return false;
 }
 
+/*
+[?] Description: A method of the Board class that checks whether or not the current state is a no check state (valid move), check state or checkmate state
+[<-] X (none)
+[->] MoveCode: A MoveCode that fits the above description.
+*/
 MoveCode Board::getCheckStatus(void)
 {
 	unsigned int i = 0;
@@ -201,15 +206,16 @@ MoveCode Board::getCheckStatus(void)
 	bool canProtect = false;
 	Solider* pDestSoldier = nullptr;
 	King* kingToTest = nullptr;
-	kingToTest = this->playerKings[((this->currentPlayer() == Color::WHITE) ? (Color::BLACK) : (Color::WHITE))];
-	if (!this->isPositionAlerted(kingToTest->position()))
+	kingToTest = this->playerKings[((this->currentPlayer() == Color::WHITE) ? (Color::BLACK) : (Color::WHITE))];  // the king to test
+	if (!this->isPositionAlerted(kingToTest->position()))  // non alerted king implies no check
 	{
 		return MoveCode::VALID_MOVE;
 	}
+	// iterating over all of the possible moves of all of the pieces of the player whose king is tested
 	this->_currentPlayer = (this->currentPlayer() == Color::WHITE) ? (Color::BLACK) : (Color::WHITE);
 	for (i = 0; i < BOARD_SIZE * BOARD_SIZE && !canProtect; i++)
 	{
-		if ((*this)[i] != nullptr && (*this)[i]->color() == kingToTest->color())
+		if ((*this)[i] != nullptr && (*this)[i]->color() == kingToTest->color())  // valid piece
 		{
 			for (j = 0; j < BOARD_SIZE * BOARD_SIZE && !canProtect; j++)
 			{
@@ -217,7 +223,7 @@ MoveCode Board::getCheckStatus(void)
 				{
 					// temporairly moving
 					pDestSoldier = this->moveWithoutDeletion(i, j);
-					if (!this->isPositionAlerted(kingToTest->position()))
+					if (!this->isPositionAlerted(kingToTest->position()))  // not alerted, the player has a way to protect!
 					{
 						canProtect = true;
 					}
