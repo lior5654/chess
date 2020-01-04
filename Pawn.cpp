@@ -16,7 +16,7 @@
 [->] X
 */
 Pawn::Pawn(Position position, Color color, const Board* pGameBoard) :
-	Solider(position, color, pGameBoard), _moved(false)
+	Solider(position, color, pGameBoard), _originalPosition(position)
 {
 
 }
@@ -32,7 +32,7 @@ bool Pawn::canMove(const Position& dest)
 	Position myPos = this->position();
 	Position tempPos = this->position();
 	Solider* movePlaceSolider = nullptr;
-	unsigned int maxMove = _moved ? 1 : 2;
+	unsigned int maxMove = (_originalPosition != myPos) ? 1 : 2;
 	unsigned int moveDiss = (myPos || dest);
 	unsigned int i = 0;  // loop variable
 	// check if move back
@@ -54,14 +54,12 @@ bool Pawn::canMove(const Position& dest)
 				return false;
 			}
 		}
-		this->_moved = true;
 		return true;
 	}
 	
 	// if kill 
 	if ((myPos || dest) == 1 && (myPos - dest) == 1 && (*this->pBoard())[dest] != nullptr)
 	{
-		this->_moved = true;
 		return true;
 	}
 	return false;

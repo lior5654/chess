@@ -17,7 +17,7 @@ public:
 	Pawn(Position position, Color color, const Board* pGameBoard);
 	virtual bool canMove(const Position& dest) override;
 private:
-	bool _moved;
+	Position _originalPosition;
 	static void posForward(Position& pos, const Color& color);
 	static bool isGoingBack(const Position& origin, const Position& dest, const Color& color);
 };
