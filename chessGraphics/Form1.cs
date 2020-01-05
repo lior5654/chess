@@ -226,15 +226,15 @@ namespace chessGraphics
         // messages should be according the protocol.
         // index is the message number in the protocol
         string[] messages =  {
-            "Valid move",
-            "Valid move - you made chess",
-            "Invalid move - not your player",
-            "Invalid move - destination is not free",
-            "Invalid move - chess wil occure",
-            "Invalid move - out of bounds",
-            "Invalid move - illegeal movement with piece",
-            "Invalid move - source and dest are equal",
-            "Game over - check mate",
+            "Valid Move",
+            "Valid Move, Chess!",
+            "Invalid Move, Incorrect Player",
+            "Invalid Move, Destination is not Free",
+            "Invalid Move, Chess will Occur",
+            "Invalid Move, Out of Bounds",
+            "Invalid Move, Illegal Movement with Piece",
+            "Invalid Move, Source and Dest are Equal",
+            "Game over, CHECKMATE!",
             "Unknown message"
             };
 
@@ -264,7 +264,7 @@ namespace chessGraphics
 
                      lblEngineCalc.Visible = true;
             
-                     lblMove.Text = string.Format("Move from {0} to {1}", srcSquare, dstSquare);
+                     lblMove.Text = string.Format("{0} -> {1}", srcSquare, dstSquare);
                     lblMove.Visible = true;
                     //lblEngineCalc.Invalidate();
             
@@ -338,7 +338,7 @@ namespace chessGraphics
                         gameSong.Stop();
                         SoundPlayer sound = new SoundPlayer(Properties.Resources.win);
                         sound.Play();
-                        MessageBox.Show((isCurPlWhite ? "White" : "Black") + " is the winner!");
+                        MessageBox.Show(string.Format("{0} {1}",(isCurPlWhite ? "White" : "Black"),"is the winner!"));
                         this.Refresh();
 
                     }
