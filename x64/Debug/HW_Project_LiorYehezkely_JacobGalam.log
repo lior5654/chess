@@ -1,0 +1,15 @@
+﻿  Bishop.cpp
+  Board.cpp
+  Game.cpp
+  GraphicsPipe.cpp
+  King.cpp
+  Knight.cpp
+  Pawn.cpp
+  Position.cpp
+  Queen.cpp
+  Rook.cpp
+  Solider.cpp
+  stdafx.cpp
+  TestCode.cpp
+  Generating Code...
+  HW_Project_LiorYehezkely_JacobGalam.vcxproj -> C:\Users\משתמש\Desktop\fix_project\hw_project_lioryehezkely_jacobgalam\x64\Debug\HW_Project_LiorYehezkely_JacobGalam.exe
