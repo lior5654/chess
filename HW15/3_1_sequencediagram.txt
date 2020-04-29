@@ -1,0 +1,9 @@
+title Backend & Frontend Communication
+
+note over Backend Logic,Frontend Client: Applicative Protocol Related communication, not implemented by us. The backend waits until the clinet sends a connect request
+Backend Logic->Frontend Client: **(64 bytes)** Initial Board State **(1 byte)** (0 / 1) (White / Black) Starts 
+Frontend Client-->(3)Backend Logic: **(1 byte)** Source Column **(1 byte)** Source Row **(1 byte)** Dest Column **(1 byte)** Dest Row
+Backend Logic-->Frontend Client: **(1 integer)** Resultant Move Code
+Frontend Client->Backend Logic: **quit**
+
+

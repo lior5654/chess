@@ -1,0 +1,2 @@
+Constructor - standard, nothing I can put my finger on
+canMove(const Position& dest) - maybe make a separate function for posOffset if it's a concept that repeats itself, will make the code more elagant. a bit of a DRY issue, take this into consideration. furthermore, -1 and 1 should be in constants, usage of magic numbers is not recommended.

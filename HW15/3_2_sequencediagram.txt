@@ -1,0 +1,68 @@
+title Game Move Backend Management
+Game.update->GraphicsPipe.getLatestReply: < < function call > >
+GraphicsPipe.getLatestReply->(1)Game.update:std::string (the move request)
+Game.update->Position.Position:< < function calls > > represent move request as position instances
+Position.Position->(1)Game.update: created Position instances
+Game.update->Board.move: < < function call > >(created Position instances)
+Board.move->Board.canPieceMove: < < function call > >(origin, best)
+Board.canPieceMove-->Board.currentPlayer: < < function call > >
+Board.currentPlayer->(1)Board.canPieceMove: chessEnums::Color instance of current player
+
+Board.canPieceMove-->(1)Board.move: MoveCode::ORIGIN_NOT_OWNED
+Board.canPieceMove-->(1)Board.move: MoveCode::DEST_OWNED
+Board.canPieceMove-->(1)Board.move: MoveCode::ORIGIN_AND_DEST_EQUALITY
+
+Board.canPieceMove-->Board.[]: < < function call > >(origin)
+Board.[]->(1)Board.canPieceMove: Solider* (pointer to solider at origin)
+
+Board.canPieceMove-->Solider.canMove: < < function call > >(dest) (called from instance returned by Board.[])
+Solider.canMove-->(3)Solider.canMove: Solider dependent static methods
+Solider.canMove->(1)Board.canPieceMove: boolean representation of whether or not solider at origin can move
+
+Board.canPieceMove-->(1)Board.move: MoveCode::DEFIES_SOLLIDER_MOVE_PATTERN
+
+Board.canPieceMove-->Board.moveWithoutDeletion: < < function call > >(origin, dest)
+Board.moveWithoutDeletion->(1)Board.canPieceMove: pointer to solider in dest (or nullptr if the dest was empty)
+
+Board.canPieceMove->Solider.position: < < function call > >(current player color instance) (for getting king position from the king map)
+Solider.position->(1)Board.canPieceMove: current king position
+
+Board.canPieceMove->Board.isPositionAlerted: < < function call > >(king position)
+Board.isPositionAlerted->(1)Board.canPieceMove: bool if king is alerted
+
+Board.canPieceMove->Board.moveWithoutDeletion: < < function call > >(dest, origin)
+Board.moveWithoutDeletion->(1)Board.canPieceMove: pointer to solider in dest (or nullptr if the dest was empty)
+
+Board.canPieceMove->Board.[]: < < function call> >(dest)
+Board.[]->(1)Board.canPieceMove: Solider* pointer reference
+
+Board.canPieceMove-->(1)Board.move: MoveCode::IMPLIES_SELF_CHECK
+Board.canPieceMove->(1)Board.move: MoveCode::VALID_MOVE
+
+Board.move-->(1)Game.update: non MoveCode::VALID_MOVE MoveCode (invalid move related codes)
+
+Board.move-->Board.moveWithoutDeletion: < < function call > >(origin, dest)
+Board.moveWithoutDeletion->(1)Board.move: pointer to solider in dest (or nullptr if the dest was empty)
+
+Board.move->Board.getCheckStatus: < < function call > >
+
+Board.getCheckStatus->Board.currentPlayer: < < function call > >
+Board.getCheckStatus<-Board.currentPlayer: chessEnums::Color (current Player color)
+
+Board.getCheckStatus->Solider.position: < < function call > >(current player color instance) (for getting king position from the king map)
+Solider.position->(1)Board.getCheckStatus: current king position
+
+Board.getCheckStatus->Board.isPositionAlerted: < < function call > >(king position)
+Board.isPositionAlerted->(1)Board.getCheckStatus: bool if king is alerted
+
+Board.move(1)<--Board.getCheckStatus: MoveCode::VALID_MOVE
+Board.getCheckStatus->(5)Board.getCheckStatus: at this point the data became too big, alertedPosition and moveWithoutDeletion are used for every piece
+
+
+Board.move(1)<--Board.getCheckStatus: MoveCode::CAUSES_CHECK
+Board.move(1)<-Board.getCheckStatus: MoveCode::CHECKMATE
+
+Board.move-->(1)Game.update: MoveCode::VALID_MOVE
+Board.move-->(1)Game.update: MoveCode::CAUSES_CHECK
+Board.move->(1)Game.update: MoveCode::CHECKMATE
+
