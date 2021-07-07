@@ -12,4 +12,5 @@ As a bonus, me and my partner added some extra features to the frontend of the g
 The project was developed in the "Visual Studio 2019" IDE. By opening the `.vcxproj` files in Visual Studio and building the project you can test it on your own.
 
 > Made By: Lior Yehezkely & Jacob Galam
-> 
+
+Final grade: 100/100.
